@@ -11,7 +11,7 @@ import (
 func PaginateScope(paginationDto dtos.RequestInformationMetadata) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		offset := (paginationDto.Offset - 1) * paginationDto.Limit
-		return db.Offset(offset).Limit(paginationDto.Limit)
+		return db.Offset(int(offset)).Limit(int(paginationDto.Limit))
 	}
 }
 
@@ -50,8 +50,8 @@ func Paginate(query *gorm.DB, paginationDto dtos.RequestInformationMetadata, res
 	return dtos.PaginationMetadataResponse{
 		TotalItems:      int(totalItems),
 		TotalPages:      totalPages,
-		CurrentPage:     pageNumber,
-		PageSize:        pageSize,
+		CurrentPage:     int(pageNumber),
+		PageSize:        int(pageSize),
 		HasNextPage:     hasNextPage,
 		HasPreviousPage: hasPreviousPage,
 	}, nil
