@@ -3,5 +3,5 @@ package port
 import "github.com/dieddeveloper/api-rest-crud-hexagonal-arch/internal/domain/dtos"
 
 type IHandlersUseCases interface {
-	GetAllPersonInformationUseCase() ([]*dtos.PersonDTO, error)
+	GetAllPersonInformationUseCase(requestMetadata dtos.RequestInformationMetadata) ([]*dtos.PersonDTO, dtos.PaginationMetadataResponse, error)
 }

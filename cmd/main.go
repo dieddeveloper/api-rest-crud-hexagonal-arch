@@ -24,16 +24,6 @@ func runServer() {
 	e := echo.New()
 	fmt.Println("Server Running!")
 
-	apiPathsWithoutTokenValidation := e.Group("/")
-	apiPathsWithoutTokenValidation.GET("/healthCheck")
-
-	apiPathsWithTokenValidation := e.Group("/v1")
-	apiPathsWithTokenValidation.POST("/create")
-	apiPathsWithTokenValidation.GET("/read")
-	apiPathsWithTokenValidation.PATCH("/updateAnElement")
-	apiPathsWithTokenValidation.DELETE("/deleteElement")
-	apiPathsWithTokenValidation.PUT("/update")
-
 	err := e.Start(":" + os.Getenv("CPORT"))
 	if err != nil {
 		logrus.Fatal(err)

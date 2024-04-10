@@ -6,6 +6,7 @@ import (
 
 	"github.com/dieddeveloper/api-rest-crud-hexagonal-arch/internal/domain/dtos"
 	"github.com/dieddeveloper/api-rest-crud-hexagonal-arch/internal/infrastructure/adapters/models"
+	"github.com/dieddeveloper/api-rest-crud-hexagonal-arch/internal/infrastructure/adapters/utils"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"gorm.io/plugin/dbresolver"
@@ -21,14 +22,14 @@ func NewPersonAdapter(db *gorm.DB) *RepositoryPersonAdapter {
 	}
 }
 
-func (d *RepositoryPersonAdapter) GetAllPersonInformationAdapter(requestMetadata dtos.RequestInformationMetadata) ([]*models.PersonModel, error) {
-	var response models.PersonModel
+func (d *RepositoryPersonAdapter) GetAllPersonInformationAdapter(requestMetadata dtos.RequestInformationMetadata) ([]*models.PersonModel, dtos.PaginationMetadataResponse, error) {
+	var response []*models.PersonModel
 	dbResponse := d.db.Clauses(dbresolver.Use(os.Getenv("DBNAME"))).Table("person p").
-		Select("p.id", "p.Name", "p.age").
-		Offset(requestMetadata.Limit * requestMetadata.Offset).
-		Limit(requestMetadata.Limit).Find(&response)
-	if dbResponse.Error != nil {
-		logrus.Error("there is an error getting information in adapter: ", dbResponse.Error)
-		return nil, errors.New("there is an error getting requested information")
+		Select("p.id", "p.Name", "p.age")
+	results, err := utils.Paginate(dbResponse, requestMetadata, &response)
+	if err != nil {
+		logrus.Error("there is an error getting information", err)
+		return nil, dtos.PaginationMetadataResponse{}, errors.New("there is an error getting requested information")
 	}
+	return response, results, nil
 }
