@@ -1,31 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
+	factorymethod "github.com/dieddeveloper/api-rest-crud-hexagonal-arch/internal/infrastructure/designPatterns/factoryMethod"
+	"github.com/dieddeveloper/api-rest-crud-hexagonal-arch/internal/infrastructure/pkg/migration"
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	runServer()
+
+	err := migration.RunDBMigration()
+	if err != nil {
+		panic(err)
+	}
+
+	factorymethod.NewEchoAPIRestAdapter().RunServer()
 }
 
 func init() {
 	err := godotenv.Load()
 	if err != nil {
 		logrus.Warnln("Could not load environment variables")
-	}
-}
-
-func runServer() {
-	e := echo.New()
-	fmt.Println("Server Running!")
-
-	err := e.Start(":" + os.Getenv("CPORT"))
-	if err != nil {
-		logrus.Fatal(err)
 	}
 }

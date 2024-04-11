@@ -17,25 +17,25 @@ func ApiRoutes(group *echo.Group) {
 	}
 
 	//adapters
-	personAdapter := adapters.NewPersonAdapter(dbAdapter)
+	adapters := adapters.NewPersonAdapter(dbAdapter)
 
 	//services
-	personService := service.NewServicesConstructor(personAdapter)
+	services := service.NewServicesConstructor(adapters)
 
 	//usecases
-	personUsecases := usecase.NewUseCaseConstructor(personService)
+	usecases := usecase.NewUseCaseConstructor(services)
 
 	//handlers
-	personHandler := entrypoints.NewHandlerConstructor(personUsecases)
+	handlers := entrypoints.NewHandlerConstructor(usecases)
 
-	group.GET("v1/getAllInformation", personHandler.GetAllPersonInformationHandler)
+	group.GET("v1/health", handlers.HealthHandler)
 
+	group.GET("v1/getAllInformation", handlers.GetAllPersonInformationHandler)
 	/*
-		group.GET("/healthCheck")
 
 		apiPathsWithTokenValidation := e.Group("/v1")
 		apiPathsWithTokenValidation.POST("/create")
-		apiPathsWithTokenValidation.GET("/read")
+
 		apiPathsWithTokenValidation.PATCH("/updateAnElement")
 		apiPathsWithTokenValidation.DELETE("/deleteElement")
 		apiPathsWithTokenValidation.PUT("/update")*/

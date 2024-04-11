@@ -31,11 +31,10 @@ func (api *APIRestServer) RunServer() {
 		CustomTimeFormat: global.DateAndHourFormat,
 		Format:           "[${time_custom}] - method=${method}, uri=${uri}, status=${status}\n",
 		Skipper: func(c echo.Context) bool {
-			if strings.Contains(c.Path(), "/v1/crm/api/campaigns/healthz") || c.Path() == "" {
+			if strings.Contains(c.Path(), "/v1/healthz") || c.Path() == "" {
 				return true
-			} else {
-				return false
 			}
+			return false
 		},
 	}))
 
