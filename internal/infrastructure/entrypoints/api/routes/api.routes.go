@@ -30,12 +30,30 @@ func ApiRoutes(group *echo.Group) {
 
 	group.GET("v1/health", handlers.HealthHandler)
 
+}
+
+func ApiJWTRoutes(group *echo.Group) {
+
+	dbAdapter, err := singleton.NewSingletonPostgresAdapter()
+	if err != nil {
+		panic(err)
+	}
+
+	//adapters
+	adapters := adapters.NewPersonAdapter(dbAdapter)
+
+	//services
+	services := service.NewServicesConstructor(adapters)
+
+	//usecases
+	usecases := usecase.NewUseCaseConstructor(services)
+
+	//handlers
+	handlers := entrypoints.NewHandlerConstructor(usecases)
+
 	group.GET("v1/getAllInformation", handlers.GetAllPersonInformationHandler)
+	group.GET("v1/getPerson/:id", handlers.GetAllPersonInformationHandler)
 	/*
-
-		apiPathsWithTokenValidation := e.Group("/v1")
-		apiPathsWithTokenValidation.POST("/create")
-
 		apiPathsWithTokenValidation.PATCH("/updateAnElement")
 		apiPathsWithTokenValidation.DELETE("/deleteElement")
 		apiPathsWithTokenValidation.PUT("/update")*/

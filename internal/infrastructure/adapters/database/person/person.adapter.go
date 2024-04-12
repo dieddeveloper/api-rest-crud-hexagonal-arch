@@ -33,3 +33,17 @@ func (d *RepositoryPersonAdapter) GetAllPersonInformationAdapter(requestMetadata
 	}
 	return response, results, nil
 }
+
+func (d *RepositoryPersonAdapter) GetPersonByIDAdapter(personID int64) (*models.PersonModel, error) {
+	var response models.PersonModel
+	dbResponse := d.db.Clauses(dbresolver.Use(os.Getenv("DBNAME"))).Table("person p").
+		Select("p.id", "p.Name", "p.age").
+		Where("p.id = ?", personID).
+		Find(&response)
+	err := dbResponse.Error
+	if err != nil {
+		logrus.Error("there is an error getting information", err)
+		return nil, errors.New("there is an error getting requested information")
+	}
+	return &response, nil
+}

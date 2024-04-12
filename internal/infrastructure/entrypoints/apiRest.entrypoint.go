@@ -9,19 +9,21 @@ import (
 )
 
 type APIRestServer struct {
-	echoInstance *echo.Echo
-	globalGroup  *echo.Group
-	port         string
-	routes       func(*echo.Group)
+	echoInstance   *echo.Echo
+	globalGroup    *echo.Group
+	globalJWTGroup func(*echo.Group)
+	port           string
+	routes         func(*echo.Group)
 }
 
-func NewAPIRestServer(port, globalPrefix string, routes func(*echo.Group)) *APIRestServer {
+func NewAPIRestServer(port, globalPrefix string, routes func(*echo.Group), jwtGroup func(*echo.Group)) *APIRestServer {
 	e := echo.New()
 	return &APIRestServer{
-		echoInstance: e,
-		globalGroup:  e.Group(globalPrefix),
-		port:         port,
-		routes:       routes,
+		echoInstance:   e,
+		globalGroup:    e.Group(globalPrefix),
+		port:           port,
+		routes:         routes,
+		globalJWTGroup: jwtGroup,
 	}
 }
 

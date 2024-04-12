@@ -13,5 +13,6 @@ func NewEchoAPIRestAdapter() interfaces.IAPIRest {
 		os.Getenv("CPORT"),
 		os.Getenv("API_REST_BASE_URL"),
 		routes.ApiRoutes,
+		routes.ApiJWTRoutes,
 	)
 }

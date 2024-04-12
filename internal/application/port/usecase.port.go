@@ -4,4 +4,5 @@ import "github.com/dieddeveloper/api-rest-crud-hexagonal-arch/internal/domain/dt
 
 type IServices interface {
 	GetAllPersonInformationService(requestMetadata dtos.RequestInformationMetadata) ([]*dtos.PersonDTO, dtos.PaginationMetadataResponse, error)
+	GetPersonByIDService(personID int64) (*dtos.PersonDTO, error)
 }
