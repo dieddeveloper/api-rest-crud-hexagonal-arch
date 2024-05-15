@@ -7,8 +7,8 @@ import (
 
 func PersonModelToDTOMapper(modelToMap *models.PersonModel) *dtos.PersonDTO {
 	return &dtos.PersonDTO{
-		ID:   modelToMap.ID,
+		ID:   int64(modelToMap.ID),
 		Name: modelToMap.Name,
-		Age:  modelToMap.Age,
+		Age:  int64(modelToMap.Age),
 	}
 }

@@ -51,11 +51,12 @@ func ApiJWTRoutes(group *echo.Group) {
 	//handlers
 	handlers := entrypoints.NewHandlerConstructor(usecases)
 
-	group.GET("v1/getAllInformation", handlers.GetAllPersonInformationHandler)
-	group.GET("v1/getPerson/:id", handlers.GetAllPersonInformationHandler)
-	/*
-		apiPathsWithTokenValidation.PATCH("/updateAnElement")
-		apiPathsWithTokenValidation.DELETE("/deleteElement")
-		apiPathsWithTokenValidation.PUT("/update")*/
+	group.GET("v1/person/all", handlers.GetAllPersonInformationHandler)
+	group.GET("v1/person/get/:cardNumber", handlers.GetPersonByIDHandler)
+	group.POST("v1/person/create", handlers.GetPersonByIDHandler)
+	/*group.PATCH("/updateAnElement", handlers.GetPersonByIDHandler)
+
+	apiPathsWithTokenValidation.DELETE("/deleteElement")
+	apiPathsWithTokenValidation.PUT("/update")*/
 
 }

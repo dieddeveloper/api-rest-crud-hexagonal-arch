@@ -9,9 +9,9 @@ func PersonModelToDTOMapperArray(modelToMap []*models.PersonModel) []*dtos.Perso
 	var resultDtoSlice []*dtos.PersonDTO
 	var resultDTO dtos.PersonDTO
 	for _, item := range modelToMap {
-		resultDTO.ID = item.ID
+		resultDTO.ID = int64(item.ID)
 		resultDTO.Name = item.Name
-		resultDTO.Age = item.Age
+		resultDTO.Age = int64(item.Age)
 
 		resultDtoSlice = append(resultDtoSlice, &resultDTO)
 	}

@@ -34,11 +34,11 @@ func (d *RepositoryPersonAdapter) GetAllPersonInformationAdapter(requestMetadata
 	return response, results, nil
 }
 
-func (d *RepositoryPersonAdapter) GetPersonByIDAdapter(personID int64) (*models.PersonModel, error) {
+func (d *RepositoryPersonAdapter) GetPersonByIDAdapter(cardNumber string) (*models.PersonModel, error) {
 	var response models.PersonModel
 	dbResponse := d.db.Clauses(dbresolver.Use(os.Getenv("DBNAME"))).Table("person p").
-		Select("p.id", "p.Name", "p.age").
-		Where("p.id = ?", personID).
+		Select("p.id", "p.Name", "p.age", "p.card_number").
+		Where("p.card_number = ?", cardNumber).
 		Find(&response)
 	err := dbResponse.Error
 	if err != nil {

@@ -12,5 +12,5 @@ func (adapters *AdaptersStruc) GetAllPersonInformationService(requestMetadata dt
 		logrus.Error("there is an error getting person information in service adapter ", err)
 		return nil, dtos.PaginationMetadataResponse{}, err
 	}
-	return mappers.PersonModelToDTOMapper(result), pagination, nil
+	return mappers.PersonModelToDTOMapperArray(result), pagination, nil
 }
