@@ -7,7 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (services *ServiceStruc) CreatePersonUseCase(personDTO dtos.PersonDTO) (int64, error) {
+func (services *ServiceStruc) CreatePersonUseCase(personDTO *dtos.PersonDTO) (int64, error) {
 
 	personValidated, err := services.servicesStruc.GetPersonByIDService(personDTO.CardNumber)
 	if personValidated != nil || err != nil {

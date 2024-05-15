@@ -8,5 +8,5 @@ import (
 type IAdapters interface {
 	GetAllPersonInformationAdapter(requestMetadata dtos.RequestInformationMetadata) ([]*models.PersonModel, dtos.PaginationMetadataResponse, error)
 	GetPersonByIDAdapter(cardNumber string) (*models.PersonModel, error)
-	CreatePersonAdapter(personDTO dtos.PersonDTO) (int64, error)
+	CreatePersonAdapter(personDTO *dtos.PersonDTO) (int64, error)
 }
