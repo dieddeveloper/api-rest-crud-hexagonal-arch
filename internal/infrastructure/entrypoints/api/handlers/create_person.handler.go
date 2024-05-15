@@ -12,7 +12,7 @@ import (
 )
 
 func (handler *UseCasesStruc) CreatePersonHandler(c echo.Context) error {
-	var personDTO dtos.PersonDTO
+	var personDTO *dtos.PersonDTO
 	err := c.Bind(&personDTO)
 	if err != nil {
 		logrus.Error("there is an error binding body", err)

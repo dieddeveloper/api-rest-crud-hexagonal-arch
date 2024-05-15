@@ -22,6 +22,18 @@ func NewPersonAdapter(db *gorm.DB) *RepositoryPersonAdapter {
 	}
 }
 
+func (d *RepositoryPersonAdapter) CreatePersonAdapter(person *dtos.PersonDTO) (int64, error) {
+
+	dbResponse := d.db.Clauses(dbresolver.Use(os.Getenv("DBNAME"))).Table("person p").
+		Create(person)
+	err := dbResponse.Error
+	if err != nil || person.ID == 0 {
+		logrus.Error("there is an error getting information", err)
+		return 0, errors.New("there is an error getting requested information")
+	}
+	return person.ID, nil
+}
+
 func (d *RepositoryPersonAdapter) GetAllPersonInformationAdapter(requestMetadata dtos.RequestInformationMetadata) ([]*models.PersonModel, dtos.PaginationMetadataResponse, error) {
 	var response []*models.PersonModel
 	dbResponse := d.db.Clauses(dbresolver.Use(os.Getenv("DBNAME"))).Table("person p").
